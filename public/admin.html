@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Admin Chat</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <audio
+      id="notificationSound"
+      src="./icons/message.mp3"
+      preload="auto"
+    ></audio>
+
+    <div class="chat-container">
+      <button
+        id="chat-toggle-button"
+        class="chat-toggle-button"
+        type="button"
+        aria-label="Toggle chat"
+        aria-expanded="false"
+      >
+        Chat
+      </button>
+
+      <div id="chat-popup" class="chat-popup" style="display: none">
+        <div class="chat-wrapper">
+          <div id="chat-section">
+            <div id="user-info" class="user-info">
+              <span id="activeUserName" class="username-display">Admin</span>
+              <button
+                id="backToUsers"
+                class="back-button"
+                style="display: none"
+                type="button"
+              >
+                ← Back
+              </button>
+            </div>
+
+            <div class="chat-content">
+              <div id="userListView" class="user-list-view">
+                <h3 class="user-list-title">Users</h3>
+                <ul id="partnerList" class="partner-list"></ul>
+              </div>
+
+              <div id="chatView" class="chat-view" style="display: none">
+                <div id="messages-container">
+                  <div id="messages" class="messages"></div>
+                </div>
+
+                <div class="features-input-area">
+                  <input type="file" id="fileInput" style="display: none" />
+                  <button
+                    id="attachFileButton"
+                    type="button"
+                    class="icon-button"
+                    title="Attach File"
+                  >
+                    <img src="./icons/attach.svg" alt="Attach File Icon" />
+                  </button>
+                  <div
+                    id="filePreview"
+                    class="file-preview"
+                    style="display: none"
+                  >
+                    <span id="fileName"></span>
+                    <button id="cancelFileBtn" class="cancel-file-btn">
+                      ✖
+                    </button>
+                  </div>
+                  <button
+                    id="emojiButton"
+                    class="icon-button"
+                    title="Add Emoji"
+                    type="button"
+                  >
+                    <img src="./icons/emoji.svg" alt="Emoji Icon" />
+                  </button>
+                  <div
+                    id="emojiPicker"
+                    class="emoji-picker"
+                    style="display: none"
+                  ></div>
+                </div>
+
+                <div class="message-input-area">
+                  <input
+                    type="text"
+                    id="messageInput"
+                    placeholder="Type your message..."
+                    class="message-input"
+                    aria-label="Type your message"
+                  />
+                  <div
+                    class="voice-recorder"
+                    id="voiceControls"
+                    style="display: none"
+                  >
+                    <button id="deleteVoiceBtn" class="voice-btn">
+                      <img src="./icons/trash.svg" />
+                    </button>
+
+                    <div class="voice-wave" id="voiceWave">
+                      <div class="bar"></div>
+                      <div class="bar"></div>
+                      <div class="bar"></div>
+                      <div class="bar"></div>
+                      <div class="bar"></div>
+                    </div>
+
+                    <button id="pauseBtn" class="voice-btn">
+                      <img src="./icons/pause.svg" />
+                    </button>
+                  </div>
+                  <button id="voiceButton" class="voice-button">
+                    <img src="./icons/voice.svg" />
+                  </button>
+                  <button id="sendButton" class="send-button" type="button">
+                    Send
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const chatToggleButton = document.getElementById("chat-toggle-button");
+        const chatPopup = document.getElementById("chat-popup");
+
+        chatToggleButton.addEventListener("click", () => {
+          const isVisible = chatPopup.style.display === "block";
+          chatPopup.style.display = isVisible ? "none" : "block";
+          chatToggleButton.setAttribute(
+            "aria-expanded",
+            (!isVisible).toString()
+          );
+        });
+
+        // Close when clicking outside
+        document.addEventListener("click", (e) => {
+          if (!chatPopup.contains(e.target) && e.target !== chatToggleButton) {
+            chatPopup.style.display = "none";
+            chatToggleButton.setAttribute("aria-expanded", "false");
+          }
+        });
+      });
+    </script>
+    <!-- <div id="filePopup" class="file-popup"></div> -->
+  </body>
+</html>
